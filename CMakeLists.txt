@@ -1,4 +1,4 @@
-# CMakeList.txt : Top-level CMake project file, do global configuration
+﻿# CMakeList.txt : Top-level CMake project file, do global configuration
 # and include sub-projects here.
 #
 cmake_minimum_required (VERSION 3.10)
@@ -14,4 +14,3 @@ project ("lv_port_pc_visual_studio_cmake")
 # Include sub-projects.
 add_subdirectory ("LvglWindowsSimulator")
 add_subdirectory ("lvgl")
-add_subdirectory ("freetype")
