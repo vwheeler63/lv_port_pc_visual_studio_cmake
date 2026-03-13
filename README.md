@@ -43,7 +43,7 @@ git clone  --recurse-submodules  git@github.com:lvgl/lv_port_pc_visual_studio_cm
 
  ## Opening Project for the First Time
 
-It is strongly recommended to use Visual Studio 2026 or newer due to its improved integration with CMake.
+It is strongly recommended to use Visual Studio 2026 or newer due to its improved integration with CMake.  If you do not already have it installed, you will also need to use Visual Studio Installer to install the "Desktop development with C++" workload tools, which brings CMake integration into Visual Studio.
 
 After carrying out the above steps above under **Cloning this Repository**, open it from Visual Studio by:
 
