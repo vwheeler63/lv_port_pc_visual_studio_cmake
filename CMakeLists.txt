@@ -14,4 +14,4 @@ project ("lv_port_pc_visual_studio_cmake")
 # Include sub-projects.
 add_subdirectory ("LvglWindowsSimulator")
 add_subdirectory ("lvgl")
-# add_subdirectory ("your_directory_here")
+# add_subdirectory ("your_directory_here")  # Will require a CMakeLists.txt file
