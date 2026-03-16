@@ -8,7 +8,7 @@
 #include "../lvgl/examples/lv_examples.h"
 #include "../lvgl/demos/lv_demos.h"
 
-int main()
+int main(void)
 {
     lv_init();
 
