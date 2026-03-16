@@ -133,6 +133,25 @@ commands which automatically include:
 
 
 
+## CMake Basics
+
+CMake's primary purpose in a Visual Studio project is to build the "build-system" files necessary to compile and run the project.  Instead of having it generate the traditional `.vcxproj` and `.sln` files, however, the Visual Studio development team chose to have it generate files for the Ninja build system (similar to `Makefile`s).  Visual Studio thereafter uses the Ninja build system to compile the project.
+
+Whenever you need Visual Studio to get CMake to re-generate these files (e.g. to include new source files, or to forget about source files that have been removed, etc.), simply execute `Project > Configure lv_port_pc_visual_studio_cmake` from Visual Studio's menu.
+
+Because of the provided `CMakePresets.json` file, once the `Configure` (build-system file generation) step is completed, you can select the type of build you want through a dropdown list in Visual Studio's "Standard" toolbar.
+
+<figure style="text-align: center;">
+    <img src="VS2026_Configuration_Dropdown.png" alt="Screenshot 3: VS2026 Configuration Dropdown List" style="max-width: 90%; height: auto;"/>
+    <figcaption>Screenshot 3: &nbsp;VS2026 Configuration Dropdown List</figcaption>
+</figure>
+
+The generated build-system files are placed under an appropriate subdirectory under the `out/` directory, to keep them separate from the other build configurations.
+
+If you need to add any other directories to this project (e.g. to develop an LVGL user interface for your device), you can do so by adding an `add_subdirectory` to the top-level `CMakeLists.txt` file, then that subdirectory will need its own `CMakeLists.txt` file.  You can use `LvglWindowsSimulator\CMakeLists.txt` file as a model if you wish.
+
+
+
 ## Further Reading
 
 ### CMake References
