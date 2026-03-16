@@ -81,7 +81,67 @@ int main()
     }
 
     lv_demo_widgets();
-    //lv_demo_benchmark();
+    // All shipped demos and examples can be found in these directories:
+    // - lvgl/demos/
+    // - lvgl/examples/
+    //
+    // To use them, simply comment out `lv_demo_widgets()` above and call
+    // their function.  As of March 2026, there are 14 demos 231 examples.
+    // The easy way:  use Visual Studio's intellisense by start typing
+    // "lv_example_" or "lv_demo_" and use the pop-up list to select from.
+    //
+    // Several basic examples follow to help you get started:
+    //
+    // lv_demo_benchmark();
+    // lv_example_get_started_1();
+    // lv_example_get_started_2();
+    // lv_example_get_started_3();
+    // lv_example_get_started_4();
+    //
+    // Subset of Widget Examples:
+    // lv_example_bar_1();
+    // lv_example_button_1();
+    // lv_example_buttonmatrix_1();
+    // lv_example_checkbox_1();
+    // lv_example_dropdown_1();
+    // lv_example_calendar_1();
+    // lv_example_canvas_1();
+    // lv_example_image_1();
+    // lv_example_keyboard_1();
+    // lv_example_label_1();
+    // lv_example_led_1();
+    // lv_example_list_1();
+    // lv_example_msgbox_1();
+    // lv_example_obj_1();
+    // lv_example_roller_1();
+    // lv_example_scale_1();
+    // lv_example_slider_1();
+    // lv_example_spinbox_1();
+    // lv_example_spinner_1();
+    // lv_example_switch_1();
+    // lv_example_table_1();
+    // lv_example_tabview_1();
+    // lv_example_textarea_1();
+    // lv_example_tileview_1();
+    // lv_example_win_1();
+    //
+    // Layout Examples
+    // lv_example_flex_1();
+    // lv_example_grid_1();
+    //
+    // Styles (as of March 2026 there are 21 of these)
+    // lv_example_style_1();
+    //
+    // Observer (as of March 2026 there are 7 of these)
+    // lv_example_observer_1();
+    //
+    // Also, check out:
+    // - lvgl/examples/event/
+    // - lvgl/examples/libs/
+    // - lvgl/examples/anim/
+    // - etc.
+    //
+    // And there are dozens more.
 
     while (1)
     {
