@@ -1,6 +1,6 @@
 # LVGL for Visual Studio (CMake)
 
-This is the LVGL simulator designed to run under Microsoft Visual Studio using CMake.
+This Visual Studio project uses LVGL to provide an easy start with LVGL on Windows.  It uses the CMake build-system generator, and works out of the box.
 
 <figure style="text-align: center;">
     <img src="Screenshot.png" alt="Screenshot 1: LVGL Widgets Demo" style="max-width: 90%; height: auto;"/>
@@ -8,114 +8,100 @@ This is the LVGL simulator designed to run under Microsoft Visual Studio using C
 </figure>
 
 
+Visual Studio uses CMake (and its "downstream" tools) to:
 
-
-## The Problem this Project Solves
-
-The LVGL library has files that frequently:
-
-- move,
-- change names,
-- new files are added, and
-- old files are removed.
-
-This type of directory-structure change typically happens a few times per month (observed in 2024-2025).
-
-Given this behavior, the legacy Visual Studio `.vcxproj` file is not particularly appropriate for projects like this because it forces users of the project to have to "jump through hoops" to re-generate the `.vcxproj` file every time the directory structure of LVGL changes.  While this can be done programmatically, this is neither predictable nor intuitive, and thus such a requirement is found to be not being very user friendly.
-
-This project solves that problem by incorporating Visual Studio's new-ish support for CMake.
+- allow the user to view and navigate the project files as they exist in the directory structure,
+- keep track of dependencies and other information needed to build it, and
+- partially automate the project's adapting to directory-structure changes in the LVGL library (or in directories and files you create) when they happen.
 
 
 
-## Cloning this Repository
+## Usage
 
-To use this project, you will need to not only clone this repository, but also its submodules.  Do so in one step by:
+### Download Visual Studio
+
+If you have not already done so, download and install Visual Studio:  https://visualstudio.microsoft.com/downloads/ .  You will need Visual Studio 2026 or newer due to its improved integration with CMake.  Specifically, you will also need to have the Visual Studio Installer include the "**Desktop development with C++**" workload tools, which brings CMake + Ninja integration into Visual Studio
+
+### Clone this Repository
+
+To use this project, you will need to not only clone this repository, but also its submodules.  Click the green [Code] button and copy the appropriate URL or command line.  The following shows how to clone this repository using the SSH URL:
 
 ```bash
-git clone  --recurse-submodules  URL
+git clone --recurse-submodules git@github.com:lvgl/lv_port_pc_visual_studio_cmake.git
 ```
 
-Example:
+ ### Opening Project for the First Time
 
-```bash
-git clone  --recurse-submodules  git@github.com:lvgl/lv_port_pc_visual_studio_cmake.git
-```
+- `File > Open > Folder...` (Not `Open Project/Solution...`—this is important.)
 
-
-
- ## Opening Project for the First Time
-
-It is strongly recommended to use Visual Studio 2026 or newer due to its improved integration with CMake.  If you do not already have it installed, you will also need to use Visual Studio Installer to install the "Desktop development with C++" workload tools, which brings CMake + Ninja integration into Visual Studio.
-
-After carrying out the above steps above under **Cloning this Repository**, open it from Visual Studio by:
-
-- `File > Open > Folder...` (not `Open Project/Solution...`  This is important!)
 - Select `path/to/lv_port_pc_visual_studio_cmake/`
   - Recognizing it as a CMake project and taking initial set-up actions can take a 10-20 seconds depending on your system.  If properly recognized as a CMake project, you will see a project "splash screen" similar to Screenshot 2 below.
+
+  <figure style="text-align: center;">
+      <img src="VS2026_CMake_Splash_Screen.png" alt="Screenshot 2: VS2026 CMake Splash Screen" style="max-width: 90%; height: auto;"/>
+      <figcaption>Screenshot 2: &nbsp;VS2026 Splash Screen for CMake Projects</figcaption>
+  </figure>
+  
 - If it is not already doing so, ensure Visual Studio is displaying the Solution Explorer in "Folder View".  If it isn't, right click any part of the Solution Explorer panel and select "Switch to Folder View".
-- If Visual Studio does not automatically generate the needed CMake files, get it to do so by:
-  
-  - `Project > Configure lv_port_pc_visual_studio_cmake`
-  
-  Note:  this also applies whenever the project's directory structure changes in any way (new, removed, renamed or moved files).
 
-Once this last step is completed, it is ready to build and run.
+### Build and Run
 
-- `Build > Build All`
+The first time you run the project, and any time there is a directory structure change thereafter (e.g. you checkout the LVGL submodule at a specific version, or update it from the upstream repository):
+
+- `Project > Configure lv_port_pc_visual_studio_cmake`
+  - Note:  Visual Studio *does not* automatically detect changes to the directory structure under the `lvgl/` directory.  This is the step you need to do to update the "build files" to know about directory-structure changes.  Once it knows what files to monitor, the Ninja build system detects changed files for building.
+
+- `Build > Reuild All`
+
 - `Debug > Start Debugging`
 
 
 
-<figure style="text-align: center;">
-    <img src="VS2026_CMake_Splash_Screen.png" alt="Screenshot 2: VS2026 CMake Splash Screen" style="max-width: 90%; height: auto;"/>
-    <figcaption>Screenshot 2: &nbsp;VS2026 Splash Screen for CMake Projects</figcaption>
-</figure>
+## Notes
 
 
 
+### Changing the LVGL Example Demonstrated
 
-## Project Structure
-
-The entry point for the program in this project is the `main()` function in `LvglWindowsSimulator.c`.
-
-This project utilizes the LVGL library in the `lvgl/` directory.  Each subdirectory has its own `CMakeLists.txt` file which takes part in the generation of the Ninja build files, which Visual Studio then utilizes to build the project, instead of using the traditional `.vcxproj` project file.
-
-
-
-## Changing the LVGL Example Demonstrated
-
-By default, `LvglWindowsSimulator.c` runs the `lv_demo_widgets` example.  It does this by calling `lv_demo_widgets()`.  You will find the line which makes this call just above the `while(1)` loop at the end of the file.  To change which example is being run, simply comment out that line in `LvglWindowsSimulator.c` and add your own.  Example:
+By default, `LvglWindowsSimulator.c` runs the `lv_demo_widgets` example by calling `lv_demo_widgets()`.  You will find this call just above the `while(1)` loop at the end of the file.  To change which example is being run, simply comment out that line in `LvglWindowsSimulator.c` and add your own.  Example:
 
 ```cpp
 // lv_demo_widgets();
 lv_example_roller_1();
 ```
 
-You can find the entire set of examples that LVGL ships with under `lvgl/examples/`, and the entire set of demos under `lvgl/demos/`.
+Use Visual Studio's Intellisense to make it easy:
+
+- type "lv\_example\_" or "lv\_demo\_",
+- hit `Ctrl-Space` if the pop-up list of the available functions has not already opened, and
+- select the example or demo you want to try.
+
+The entire set of examples and demos that LVGL ships with can be found under:
+
+- `lvgl/examples/`, and
+- `lvgl/demos/`.
 
 
 
-## Updating LVGL
+### Adding New Directories and Files
 
-Periodically you will need or want to update the LVGL Git submodule to the current version or to a particular point in LVGL's version history.  Do so in the usual way.  **Caution:**  Visual Studio *does not* automatically detect file updates in the `lvgl/` directory structure.  You will need to tell Visual Studio to re-generate the CMake files by `Project > Configure lv_port_pc_visual_studio_cmake`, and to rebuild the application by `Build > Build All` or `Build > Rebuild` before running the application again with the updated content.
+This project is modified by:
 
+- making the appropriate modifications in the directory structure (e.g. to experiment or develop a firmware UI),
 
+- modifying the appropriate `CMakeLists.txt` file(s), and
 
-## Modifying Project Structure
+- `Project > Configure lv_port_pc_visual_studio_cmake`
 
-**Caution:**  In this project you do not modify this Visual Studio project in the traditional way.  (If you try, as of early 2026, Visual Studio gets hopelessly confused.)  Instead you modify the project by modifying the appropriate `CMakeLists.txt` file(s).  If you need to add experimental files to the LVGL file structure, for instance, simply `Project > Configure lv_port_pc_visual_studio_cmake` or re-save the `LvglWindowsSimulator/CMakeLists.txt` file, and CMake will update its internal file list to include the `.c/.cpp` file(s) you added.  If this is not enough for any reason, delete the entire contents of the project's `out/` directory (where CMake stores its files), forcing CMake to regenerate them from scratch.  CMake takes care of adding the appropriate `*.c` and/or `*.cpp` file(s) that you added so that the project will thereafter use them.
+#### Example 1
 
-If you need to add a top-level source file in the `LvglWindowsSimulator/` directory for any reason, just add it and then `Project > Configure lv_port_pc_visual_studio_cmake` and CMake will include your new source files (provided they end have extensions `.c`, `.cpp` or `.h`).  If you need it to add other extensions, simply add them to the `file(GLOB_RECURSE SOURCES...` CMake command in `LvglWindowsSimulator/CMakeLists.txt` following the same pattern already in place.  Visual Studio will respond according to its contents.
-
-### Example 1
-
-Let's say you want to experiment with the example in `lv_example_roller_1.c`  without modifying the original file.
+Let us say you want to experiment with the example in `lv_example_roller_1.c`  without modifying the original file.
 
 - From Visual Studio (or any editor), save that file to (for example) `my_roller_experiment.c` in the same directory as `lv_example_roller_1.c`.
 - Rename the function from `lv_example_roller_1()` to `my_roller_experiment()`.
 - In `lvgl/examples/widgets/lv_example_widgets.h`, add a prototype for your new function.
 - `Project > Configure lv_port_pc_visual_studio_cmake` or re-save `LvglWindowsSimulator/CMakeLists.txt` to get CMake to update the generated CMake files in the `out/` directory.
-- Build and run.
+- Rebuild and run.
 
 This works because `lvgl/env_support/cmake/os_desktop.cmake` (included by `lvgl/CMakeLists.txt`) contains several
 
@@ -129,9 +115,9 @@ commands which automatically include:
 - all `*.c` files contained in `lvgl/examples/`,
 - etc.
 
-### Example 2
+#### Example 2
 
-Let's say you want to develop a firmware UI on a PC using this project, and you want your firmware source files to live in a new directory:   `lv_port_pc_visual_studio_cmake/my_ui/`.  You can do so by following these steps:
+Let us say you want to develop a firmware UI on a PC using this project, and you want your firmware source files to live in a new directory:   `lv_port_pc_visual_studio_cmake/my_ui/`.  You can do so by following these steps:
 
 - Create the subdirectory (e.g. `lv_port_pc_visual_studio_cmake/my_ui/`).  *Do not create a CMakeLists.txt file in that directory.*
 
@@ -148,32 +134,14 @@ Let's say you want to develop a firmware UI on a PC using this project, and you 
   
 - Re-generate the CMake Cache:  `Project > Configure lv_port_pc_visual_studio_cmake`.
 
--  `Build > Build All` or `Build > Rebuild`
-
-- Repeat the last 2 steps every time you add, remove, rename or move source files.
+-  Rebuild and run.
 
 
 
-## CMake's Role
 
-CMake's primary purpose in a Visual Studio project is to build the "build-system" files necessary to compile and run the project, which CMake calls its "Cache".  In other projects that also use CMake to build the project, this is CMake's "Configuration" step.  Instead of having it generate the traditional `.vcxproj` and `.sln` files, however, the Visual Studio development team chose to have it generate files for the Ninja build system (similar to `Makefile`s).  Visual Studio thereafter uses the Ninja build system to compile the project.
+### Troubleshooting
 
-Whenever you need Visual Studio to get CMake to re-generate these files (e.g. to include new source files, or to forget about source files that have been deleted, etc.), simply execute `Project > Configure lv_port_pc_visual_studio_cmake` from Visual Studio's menu.  (Note:  under some circumstances, that menu item name can be `Project > Configure Cache`.)
-
-Because of the provided `CMakePresets.json` file, once the `Configure` (build-system file generation) step is completed, you can select the type of build you want through a dropdown list in Visual Studio's "Standard" toolbar.
-
-<figure style="text-align: center;">
-    <img src="VS2026_Configuration_Dropdown.png" alt="Screenshot 3: VS2026 Configuration Dropdown List" style="max-width: 90%; height: auto;"/>
-    <figcaption>Screenshot 3: &nbsp;VS2026 Configuration Dropdown List</figcaption>
-</figure>
-
-The generated build-system files are placed under an appropriate subdirectory under the `out/` directory, to keep them separate from the other build configurations.
-
-
-
-## Troubleshooting
-
-If you ever get into trouble compiling, simply `Project > Configure lv_port_pc_visual_studio_cmake` or re-save the `LvglWindowsSimulator/CMakeLists.txt` file.  By default, Visual Studio initiates updating the CMake files automatically simply from the `CMakeLists.txt` file having a new timestamp.  If this is ever not enough, perform a `Build > Clean All` and then delete the entire contents of the project's `out/` directory (where CMake stores its files, a.k.a. "CMake Cache"), forcing CMake to regenerate them from scratch, and the project will compile again.  Note:  you can do this from within Visual Studio by right-clicking the `out/` folder and selecting `Delete`.
+If you ever get into trouble compiling, simply `Project > Configure lv_port_pc_visual_studio_cmake` or re-save the `LvglWindowsSimulator/CMakeLists.txt` file.  By default, Visual Studio initiates updating the CMake files automatically simply from the `CMakeLists.txt` file having a new timestamp.  If this is ever not enough, perform a `Build > Clean All` and then delete the entire contents of the project's `out/` directory (where CMake stores its files, a.k.a. "CMake Cache"), forcing CMake to regenerate them from scratch, and the project will compile again.
 
 
 
@@ -196,5 +164,4 @@ https://cmake.org/cmake/help/latest/manual/cmake-commands.7.html
 https://github.com/lvgl/lvgl
 
 https://docs.lvgl.io/master/
-
 
