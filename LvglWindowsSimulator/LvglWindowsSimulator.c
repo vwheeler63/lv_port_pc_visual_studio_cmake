@@ -86,9 +86,12 @@ int main(void)
     // The easy way:  use Visual Studio's intellisense by start typing
     // "lv_example_" or "lv_demo_" and use the pop-up list to select from.
     //
+    // Benchmark
+    // =========
+    // lv_demo_benchmark();
+    //
     // Basic Examples
     // ==============
-    // lv_demo_benchmark();
     // lv_example_get_started_1();
     // lv_example_get_started_2();
     // lv_example_get_started_3();
